@@ -1,11 +1,20 @@
-pipeline:
-  build:
-    image: node
-    commands:
-      - npm install
-      - npm test
-  publish:
-    image: plugins/docker
-    repo: drone/node-demo
-    secrets: [ docker_username, docker_password ]
-    dry_run: true # remove this to publish
+kind: pipeline
+type: kubernetes
+name: default
+
+steps:
+- name: build
+  image: node
+  commands:
+  - npm install
+  - npm test
+
+- name: publish
+  image: plugins/docker
+  repo: drone/node-demo
+  secrets: [ docker_username, docker_password ]
+  dry_run: true
+
+trigger:
+  branch:
+  - master
