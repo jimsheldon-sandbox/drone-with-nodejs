@@ -11,9 +11,13 @@ steps:
 
 - name: publish
   image: plugins/docker
-  repo: drone/node-demo
-  secrets: [ docker_username, docker_password ]
-  dry_run: true
+  settings:
+    repo: drone/node-demo
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    dry_run: true
 
 trigger:
   branch:
